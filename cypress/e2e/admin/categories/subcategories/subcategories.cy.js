@@ -13,12 +13,16 @@ describe('Subcategories Management', () => {
     });
 
     it('should create Subcategory', () => {
+        const randomSuffix = Math.floor(Math.random() * 100000);
+        const nameEn = `nkl-${randomSuffix}`;
+        const nameAr = `ن ك ل-${randomSuffix}`;
+        ع
         // Fill Name (English)
-        cy.get('.name > .form-group > .form-control').clear().type('noooo');
+        cy.get('.name > .form-group > .form-control').clear().type(nameEn);
         // Switch to Arabic tab
         cy.get('.name > .taping > :nth-child(2)').click();
         // Fill Name (Arabic)
-        cy.get('.name > .form-group > .form-control').clear().type('نووو');
+        cy.get('.name > .form-group > .form-control').clear().type(nameAr);
 
         // Select Category (first dropdown on the page)
         cy.get('.p-dropdown').eq(0).find('.p-dropdown-trigger').click();
@@ -41,9 +45,28 @@ describe('Subcategories Management', () => {
             fileName: 'banner.png',
             mimeType: 'image/png'
         }, { force: true });
+        // Fill Meta Keywords (English)
+        cy.get('#MetaKeywoards').should('be.visible').clear().type('123gg{enter}');
 
+        cy.get('.meta-keyWords > .taping > :nth-child(2)').click();
+        // Fill Meta Keywords (Arabic)
+        cy.get('#MetaKeywoardsAr').should('be.visible').clear().type('1545645646{enter}');
+        // Fill Meta Description (English)
+        cy.get('.meta-description > .form-group > .form-control').should('be.visible').clear().type('games');
+        // Switch to Arabic tab
+        cy.get('.meta-description > .taping > :nth-child(2)').click();
+        // Fill Meta Description (Arabic)
+        cy.get('.meta-description > .form-group > .form-control').clear().type('العاب');
+        cy.get('#pn_id_22 > .p-dropdown-trigger').click();
+        cy.get('.p-dropdown-item').contains('Global').click();
+        cy.get('#pn_id_24 > .p-dropdown-trigger').click();
+        cy.get('.p-dropdown-item').contains('None').click();
+        cy.get('.toggle-switch').click();
+        cy.get('#pn_id_26 > .p-multiselect-trigger').click();
+        cy.get('.p-multiselect-item').contains('Egypt').click();
+        cy.get('.p-multiselect-header > .p-ripple').click();
         // Submit form
-        //cy.get('.btn-success').click();
+        cy.get('.btn-success').click();
 
         // Assert redirect back to Subcategories list page
         //cy.url().should('include', '/panel/categories/sub-categori');

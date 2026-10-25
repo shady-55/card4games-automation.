@@ -9,16 +9,20 @@ describe('Main Categories Management', () => {
         // Click Main Categories link
         cy.get('[ng-reflect-router-link="/panel/categories/main-categor"]').should('be.visible').click();
         // Click Add Main Category button
-        cy.get('.btn-success').should('be.visible').click();
+        cy.get('.page-header_link').should('be.visible').click();
     });
 
     it('should create Main Categories', () => {
+        const randomSuffix = Math.floor(Math.random() * 100000);
+        const nameEn = `test categories-${randomSuffix}`;
+        const nameAr = `كاتيجري تيست-${randomSuffix}`;
+
         // Fill Name (English)
-        cy.get('.name > .form-group > .form-control').should('be.visible').clear().type('test categories');
+        cy.get('.name > .form-group > .form-control').should('be.visible').clear().type(nameEn);
         // Switch to Arabic tab
         cy.get('.name > .taping > :nth-child(2)').click();
         // Fill Name (Arabic)
-        cy.get('.name > .form-group > .form-control').clear().type('كاتيجري تيست');
+        cy.get('.name > .form-group > .form-control').clear().type(nameAr);
 
         // Fill Meta Description (English)
         cy.get('.meta-description > .form-group > .form-control').should('be.visible').clear().type('games');
@@ -33,11 +37,12 @@ describe('Main Categories Management', () => {
         cy.get('.meta-keyWords > .taping > :nth-child(2)').click();
         // Fill Meta Keywords (Arabic)
         cy.get('#MetaKeywoardsAr').should('be.visible').clear().type('1545645646{enter}');
-        cy.get('#pn_id_14 > .p-multiselect-trigger').click()
-        cy.get('.p-multiselect-panel .p-multiselect-item').first().click()
-
+        // Select Show To Countries dropdown
+        cy.get('.p-multiselect-trigger').first().click();
+        cy.get('.p-multiselect-panel .p-multiselect-item').first().click();
+        cy.get('.p-multiselect-header > .p-ripple').click();
         // Submit form
-        //cy.get('.btn-success').click();
+        cy.get('.btn-success').click();
 
         // Assert redirect back to Main Categories list page
         //cy.url().should('include', '/panel/categories/main-categor');
